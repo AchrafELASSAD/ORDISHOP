@@ -2,7 +2,7 @@
 
 class Categorie{
 
-    public $id;
+    public $idcategorie;
     public $name;
 
 
@@ -20,8 +20,8 @@ class Categorie{
     }
     }
 
-    public static function selectcategorieById($tableName,$conn,$id){
-        $sql = "SELECT type FROM $tableName  WHERE id='$id'";
+    public static function selectproductByIdcategorie($tableName,$conn,$idcategorie){
+        $sql = "SELECT name FROM $tableName  WHERE idcategorie='$idcategorie'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
     // output data of each row

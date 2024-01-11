@@ -4,6 +4,7 @@
 
 //include connection file
 include('../classes/connection.php');
+
    
 
 //create in instance of class Connection
@@ -18,7 +19,10 @@ $connection->selectDatabase('ordishop1');
    //call the static selectAllClients method and store the result of the method in $clients
    $Products = Product::selectAllProducts('products',$connection->conn);
 
- 
+   if(isset($_POST['submit'])){
+    $Products = Product::selectproductByidcategory('products',$connection->conn,$_POST['categorie']);
+
+  }
   
 
 ?>
@@ -41,18 +45,28 @@ $connection->selectDatabase('ordishop1');
         
 ?>
 <body>
-<div class="container">
-        <select class="form-select" aria-label="Default select example">
-        <option selected>Select your Categorie</option>
-        <?php
-                        include("../classes/categorie.php");
-                        $categorie=Categorie::selectAllcategories('categorie',$connection->conn);
-                        foreach($categorie as $cat){
-                                echo "<option value='$cat[id]' >$cat[name]</option>";
-                        }
+    <div class="container" style="display: flex;">
+        <form method="post" action="">
+            <div class="input-group">
+                <span class="input-group-btn">
+
+                <button class="btn btn-success" type="submit" name="submit" >Search</button>
+
+                </span>
+                <select class="form-select" aria-label="Default select example" name="categorie" >
+                    <option selected>Select your Categorie</option>
+                    <?php
+                    include("../classes/categorie.php");
+                    $categories = Categorie::selectAllcategories('categorie', $connection->conn);
+                    
+                    foreach ($categories as $cat) {
+                        echo "<option value='$cat[id]' >$cat[name]</option>";
+                    }
                     ?>
-        </select>
-</div>
+                </select>
+            </div>
+        </form>
+    </div>
 <div class = 'container'>
     <div class = 'row'>
     <h2 style="text-align:center">Our-Product</h2>
@@ -89,22 +103,7 @@ foreach ($Products as $row) {
 ?>
 
                  
-<section class="container content-section">
-            <h2 class="section-header">CART</h2>
-            <div class="cart-row">
-                <span class="cart-item cart-header cart-column">ITEM</span>
-                <span class="cart-price cart-header cart-column">PRICE</span>
-                <span class="cart-quantity cart-header cart-column">QUANTITY</span>
-            </div>
-            <div class="cart-items">
-              
-            </div>
-            <div class="cart-total">
-                <strong class="cart-total-title">Total</strong>
-                <span class="cart-total-price">$0</span>
-            </div>
-            <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
-        </section>
+
 
            
      

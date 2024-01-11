@@ -28,11 +28,11 @@ public function __construct($username,$email,$password){
 
 public static function Authentif($tableName, $conn, $email)
 {
-    // Use prepared statement to prevent SQL injection
+    
     $sql = "SELECT * FROM $tableName WHERE email=?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $email);
-    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_param($stmt, "s", $email);//prepare sql statement
+    mysqli_stmt_execute($stmt);//execute staitemeeent
     
     $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
@@ -119,6 +119,8 @@ if (mysqli_query($conn, $sql)) {
 
   
     }
+
+    
 
 
 
